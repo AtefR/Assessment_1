@@ -6,15 +6,15 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class QuizRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
-            'title' => ['required'],
-            'description' => ['required'],
+            'title' => ['required', 'string', 'max:255'],
+            'description' => ['required', 'string'],
         ];
     }
 
-    public function authorize()
+    public function authorize(): true
     {
         return true;
     }
