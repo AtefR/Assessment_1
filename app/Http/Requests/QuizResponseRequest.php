@@ -11,7 +11,7 @@ class QuizResponseRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'max:254'],
             'response' => ['required'],
-            'quiz_id' => ['required', 'exists:quizzes'],
+            'quiz_id' => ['required', 'exists:quizzes,id'],
         ];
     }
 

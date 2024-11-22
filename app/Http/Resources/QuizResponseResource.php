@@ -9,7 +9,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 /** @mixin QuizResponse */
 class QuizResponseResource extends JsonResource
 {
-    public function toArray(Request $request)
+    public function toArray(Request $request): array
     {
         return [
             'id' => $this->id,
