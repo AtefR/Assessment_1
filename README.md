@@ -1,6 +1,14 @@
 # About Project
 This project is a solution for an assessment.
 
+to run:
+```bash 
+composer install
+php artisan migrate --seed
+npm install
+npm run dev
+```
+
 # Available API End-Points
 
 ## Quizzes
