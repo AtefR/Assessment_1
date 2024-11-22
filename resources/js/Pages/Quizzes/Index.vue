@@ -6,7 +6,7 @@ import SecondaryButton from "@/Components/SecondaryButton.vue"
 import TextInput from "@/Components/TextInput.vue"
 import DialogModal from "@/Components/DialogModal.vue"
 import {ref} from "vue"
-import {useForm} from "@inertiajs/vue3"
+import {router, useForm} from "@inertiajs/vue3"
 import TextArea from "@/Components/TextArea.vue"
 import DangerButton from "@/Components/DangerButton.vue"
 import Pagination from "@/Components/Pagination.vue"
@@ -72,6 +72,10 @@ const updateQuiz = () => {
         onSuccess: () => (quizBeingEdited.value = null),
     });
 }
+
+const viewQuiz = (quiz) => {
+    router.visit(route('quizzes.show', quiz))
+}
 </script>
 
 <template>
@@ -98,10 +102,15 @@ const updateQuiz = () => {
                         </tr>
                         </thead>
                         <tbody class="bg-white">
-                        <tr v-for="quiz in quizzes.data" :key="quiz.id">
+                        <template v-if="quizzes.data.length > 0">
+                            <tr v-for="quiz in quizzes.data" :key="quiz.id">
                             <td class="border-b border-slate-100 p-4">{{ quiz.title }}</td>
                             <td class="border-b border-slate-100 p-4">{{ quiz.description }}</td>
                             <td class="border-b border-slate-100 p-4 pr-8">
+                                <PrimaryButton @click="viewQuiz(quiz)" class="mr-2">
+                                    View
+                                </PrimaryButton>
+
                                 <SecondaryButton @click="editQuiz(quiz)" class="mr-2">
                                     Edit
                                 </SecondaryButton>
@@ -110,6 +119,10 @@ const updateQuiz = () => {
                                     Delete
                                 </DangerButton>
                             </td>
+                        </tr>
+                        </template>
+                        <tr v-else>
+                            <td colspan="4">There's No Records Yet</td>
                         </tr>
                         </tbody>
                     </table>
@@ -196,7 +209,7 @@ const updateQuiz = () => {
                 </div>
             </template>
 
-            <!-- Delete Quiz Modal -->
+            <!-- Edit Quiz Modal -->
             <template #footer>
                 <SecondaryButton @click="quizBeingEdited = null">
                     Cancel
@@ -213,6 +226,7 @@ const updateQuiz = () => {
             </template>
         </DialogModal>
 
+        <!-- Delete Quiz Modal -->
         <ConfirmationModal :show="quizBeingDeleted != null" @close="quizBeingDeleted = null">
             <template #title>
                 Delete Quiz

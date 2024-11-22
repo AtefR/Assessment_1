@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\QuizController;
+use App\Http\Controllers\QuizResponseController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,4 +25,5 @@ Route::middleware([
     })->name('dashboard');
 
     Route::resource('quizzes', QuizController::class)->names('quizzes');
+    Route::resource('quiz-responses', QuizResponseController::class)->names('quiz-responses');
 });

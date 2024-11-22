@@ -15,6 +15,13 @@ class QuizController extends Controller
         return Inertia::render('Quizzes/Index', compact('quizzes'));
     }
 
+    public function show(Quiz $quiz)
+    {
+        $responses = $quiz->responses()->latest()->paginate(15);
+
+        return inertia('Quizzes/Show', compact('quiz', 'responses'));
+    }
+
     public function store(QuizRequest $request)
     {
         Quiz::create($request->only(['title', 'description']));
