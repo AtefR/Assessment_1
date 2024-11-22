@@ -1,19 +1,9 @@
 <?php
 
-use App\Http\Controllers\QuizController;
-use App\Http\Controllers\QuizResponseController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\Admin\QuizController;
+use App\Http\Controllers\Admin\QuizResponseController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
 
 Route::middleware([
     'auth:sanctum',
@@ -27,3 +17,7 @@ Route::middleware([
     Route::resource('quizzes', QuizController::class)->names('quizzes');
     Route::resource('quiz-responses', QuizResponseController::class)->names('quiz-responses');
 });
+
+Route::get('/', [\App\Http\Controllers\QuizController::class, 'index'])->name('home');
+Route::get('/{quiz}', [\App\Http\Controllers\QuizController::class, 'show'])->name('quiz.show');
+Route::post('/{quiz}', [\App\Http\Controllers\QuizController::class, 'store'])->name('quiz-response.store');

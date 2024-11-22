@@ -2,50 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\QuizRequest;
+use App\Actions\SaveQuizResponse;
+use App\Http\Requests\QuizResponseRequest;
 use App\Models\Quiz;
+use App\Models\QuizResponse;
 use Inertia\Inertia;
 
 class QuizController extends Controller
 {
     public function index()
     {
-        $quizzes = Quiz::latest()->paginate(15);
+        $quizzes = Quiz::withCount('responses')
+            ->latest()
+            ->paginate(15);
 
-        return Inertia::render('Quizzes/Index', compact('quizzes'));
+        return Inertia::render('Home/Index', compact('quizzes'));
     }
 
     public function show(Quiz $quiz)
     {
-        $responses = $quiz->responses()->latest()->paginate(15);
+        $quiz->loadCount('responses');
 
-        return inertia('Quizzes/Show', compact('quiz', 'responses'));
+        return Inertia::render('Home/Quiz', compact('quiz'));
     }
 
-    public function store(QuizRequest $request)
+    public function store(QuizResponseRequest $request)
     {
-        Quiz::create($request->only(['title', 'description']));
+        SaveQuizResponse::execute($request);
 
-        return redirect()
-            ->route('quizzes.index')
-            ->with('success', 'Quiz created successfully!');
-    }
-
-    public function update(QuizRequest $request, Quiz $quiz)
-    {
-        $quiz->update($request->only(['title', 'description']));
-
-        return redirect()
-            ->route('quizzes.index')
-            ->with('success', 'Quiz updated successfully!');
-    }
-
-    public function destroy(Quiz $quiz)
-    {
-        $quiz->delete();
-
-        return redirect()
-            ->route('quizzes.index')
-            ->with('success', 'Quiz deleted successfully!');
+        return to_route('home')
+            ->with('status', ['type' => 'success', 'action' => 'Good job!', 'text' => 'Your response has been sent.']);
     }
 }
