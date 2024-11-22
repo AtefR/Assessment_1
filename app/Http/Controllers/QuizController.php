@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Actions\SaveQuizResponse;
 use App\Http\Requests\QuizResponseRequest;
 use App\Models\Quiz;
-use App\Models\QuizResponse;
 use Inertia\Inertia;
 
 class QuizController extends Controller
