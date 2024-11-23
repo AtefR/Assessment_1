@@ -7,7 +7,7 @@ use App\Http\Requests\QuizResponseRequest;
 use App\Models\Quiz;
 use Inertia\Inertia;
 
-class QuizController extends Controller
+class HomeController extends Controller
 {
     public function index()
     {
