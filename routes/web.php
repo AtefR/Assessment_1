@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\QuizController;
 use App\Http\Controllers\Admin\QuizResponseController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,6 +19,6 @@ Route::middleware([
     Route::resource('quiz-responses', QuizResponseController::class)->names('quiz-responses');
 });
 
-Route::get('/', [\App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/{quiz}', [\App\Http\Controllers\HomeController::class, 'show'])->name('quiz.show');
-Route::post('/{quiz}', [\App\Http\Controllers\HomeController::class, 'store'])->name('quiz-response.store');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/{quiz}', [HomeController::class, 'show'])->name('quiz.show');
+Route::post('/{quiz}', [HomeController::class, 'store'])->name('quiz-response.store');
